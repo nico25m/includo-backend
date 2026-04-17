@@ -1,0 +1,82 @@
+[
+  {
+    "id": "falegnameria",
+    "title": "Falegnameria",
+    "description": "Corso pratico per lavorare il legno. Si impara a usare gli attrezzi, scegliere il legno giusto e costruire mobili o piccoli oggetti fatti a mano.",
+    "skills": ["legno", "attrezzi", "costruzione mobili"],
+    "duration": "6 mesi",
+    "remote": false
+  },
+  {
+    "id": "sartoria",
+    "title": "Sartoria",
+    "description": "Si impara a cucire, tagliare i tessuti e creare vestiti su misura. Il corso spiega le basi del modellismo e come usare la macchina da cucire.",
+    "skills": ["cucito", "tessuti", "vestiti"],
+    "duration": "5 mesi",
+    "remote": false
+  },
+  {
+    "id": "ceramica",
+    "title": "Ceramica",
+    "description": "Lavorazione dell'argilla al tornio e a mano. Si impara a modellare il materiale, decorarlo e cuocerlo nel forno.",
+    "skills": ["argilla", "modellazione", "decorazione"],
+    "duration": "4 mesi",
+    "remote": true
+  },
+  {
+    "id": "pelle",
+    "title": "Pelletteria",
+    "description": "Corso per imparare a lavorare la pelle e il cuoio. Si creano borse, cinture e altri accessori tagliando e cucendo a mano.",
+    "skills": ["pelle", "cuoio", "accessori"],
+    "duration": "4 mesi",
+    "remote": false
+  },
+  {
+    "id": "tessitura",
+    "title": "Tessitura",
+    "description": "Si usa il telaio a mano per creare tessuti, tappeti o stoffe usando lana e cotone naturali.",
+    "skills": ["telaio", "lana", "tessitura"],
+    "duration": "5 mesi",
+    "remote": false
+  },
+  {
+    "id": "metalli",
+    "title": "Lavorazione Metalli",
+    "description": "Impara a usare il fuoco e il martello per modellare il ferro. Si creano oggetti artistici e attrezzi di vario tipo.",
+    "skills": ["ferro", "martello", "forgiatura"],
+    "duration": "6 mesi",
+    "remote": false
+  },
+  {
+    "id": "restauro",
+    "title": "Restauro Mobili",
+    "description": "Come ridare vita ai vecchi mobili in legno. Tecniche di pulizia, riparazione e lucidatura.",
+    "skills": ["restauro", "legno", "verniciatura"],
+    "duration": "5 mesi",
+    "remote": false
+  },
+  {
+    "id": "ricamo",
+    "title": "Ricamo e Pizzi",
+    "description": "Tecniche classiche di ricamo a mano e creazione di pizzi. Un corso molto calmo e preciso.",
+    "skills": ["ricamo", "pizzi", "lavoro a mano"],
+    "duration": "4 mesi",
+    "remote": true
+  },
+  {
+    "id": "pietra",
+    "title": "Lavorazione Pietra",
+    "description": "Corso di scultura su pietra locale. Si impara a usare lo scalpello per creare forme e decorazioni.",
+    "skills": ["scultura", "pietra", "scalpello"],
+    "duration": "6 mesi",
+    "remote": false
+  },
+  {
+    "id": "formaggi",
+    "title": "Caseificio",
+    "description": "Come fare il formaggio partendo dal latte. Si imparano le basi della caseificazione e della conservazione.",
+    "skills": ["latte", "formaggio", "cucina"],
+    "duration": "3 mesi",
+    "remote": false
+  }
+]
