@@ -19,9 +19,9 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://includo-frontend-2mev89ef9-nico25ms-projects.vercel.app'],
+    'allowed_origins' => [],
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => ['/^https:\/\/includo-frontend-.*\.vercel\.app$/'],
 
     'allowed_headers' => ['*'],
 
