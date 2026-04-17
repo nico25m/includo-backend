@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['https://includo-frontend-2mev89ef9-nico25ms-projects.vercel.app'],
 
     'allowed_origins_patterns' => [],
 
