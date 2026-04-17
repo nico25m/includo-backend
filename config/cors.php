@@ -21,7 +21,7 @@ return [
 
     'allowed_origins' => [],
 
-    'allowed_origins_patterns' => ['/^https:\/\/includo-frontend-.*\.vercel\.app$/'],
+    'allowed_origins_patterns' => ['/^https:\/\/includo-frontend(-.*)?\.vercel\.app$/'],
 
     'allowed_headers' => ['*'],
 
