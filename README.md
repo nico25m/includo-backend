@@ -1,59 +1,169 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# IncluDO — Backend API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Backend del progetto **IncluDO**, un chatbot AI per l'orientamento ai corsi artigianali tradizionali.  
+Sviluppato con **Laravel** (PHP) e collegato a **OpenAI** tramite API.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+##  Descrizione del progetto
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+IncluDO è un assistente virtuale di nome **Indo** che guida l'utente nella scelta di un corso artigianale.  
+Il sistema raccoglie le preferenze dell'utente durante la conversazione e, nel momento giusto, cerca automaticamente i corsi più adatti nel database usando la **ricerca semantica** (RAG).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+##  Tecnologie utilizzate
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+| Tecnologia | Utilizzo |
+|------------|----------|
+| **Laravel 11** (PHP) | Framework backend |
+| **MySQL** | Database |
+| **OpenAI API** | Chat (`gpt-4o-mini`) + Embeddings (`text-embedding-3-small`) |
+| **Railway** | Hosting in produzione |
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+##  Come funziona
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 1. Conversazione con l'AI
+Il frontend invia il messaggio dell'utente all'endpoint `/api/chat`.  
+Il backend recupera tutta la cronologia della conversazione dal database e la invia a OpenAI, che risponde come "Indo".
 
-### Premium Partners
+### 2. Ricerca semantica (RAG)
+Dopo 3–4 messaggi, OpenAI decide autonomamente di chiamare lo strumento `searchCourses`.  
+Il backend allora:
+1. Converte la query dell'utente in un **vettore numerico** (embedding) tramite OpenAI
+2. Confronta quel vettore con i vettori di tutti i corsi nel database
+3. Usa la **cosine similarity** per trovare i corsi più pertinenti
+4. Restituisce i risultati all'AI, che li presenta all'utente in linguaggio naturale
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 3. Caricamento corsi
+L'endpoint `/api/embed-course` permette di aggiungere un nuovo corso al database.  
+Il backend lo converte automaticamente in vettore (embedding) e lo salva, pronto per la ricerca semantica.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+##  Endpoint API
 
-## Code of Conduct
+| Metodo | URL | Descrizione |
+|--------|-----|-------------|
+| `POST` | `/api/chat` | Invia un messaggio e riceve la risposta di Indo |
+| `POST` | `/api/embed-course` | Aggiunge un corso al database con il suo embedding |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Esempio — `/api/chat`
+```json
+// Request
+{
+  "session_id": "sessione-abc123",
+  "message": "Mi piace lavorare con le mani"
+}
 
-## Security Vulnerabilities
+// Response
+{
+  "reply": "Interessante! Hai già esperienza con qualche materiale specifico, come legno, ceramica o tessuto?"
+}
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Esempio — `/api/embed-course`
+```json
+// Request
+{
+  "id": 1,
+  "title": "Ceramica Tradizionale",
+  "description": "Corso introduttivo alla lavorazione dell'argilla",
+  "skills": ["modellazione", "cottura", "smaltatura"],
+  "duration": "3 mesi",
+  "remote": false
+}
 
-## License
+// Response
+{
+  "status": "success",
+  "id": 1
+}
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+##  Installazione locale
+
+### Prerequisiti
+- PHP >= 8.2
+- Composer
+- Una chiave API di OpenAI
+
+### Passaggi
+
+```bash
+# 1. Clona il repository
+git clone https://github.com/tuo-utente/includo-backend.git
+cd includo-backend
+
+# 2. Installa le dipendenze PHP
+composer install
+
+# 3. Crea il file di configurazione
+cp .env.example .env
+
+# 4. Genera la chiave dell'applicazione
+php artisan key:generate
+
+# 5. Crea il database e le tabelle
+php artisan migrate
+
+# 6. Avvia il server
+php artisan serve
+```
+
+### Configurazione `.env`
+Aggiungi la tua chiave OpenAI nel file `.env`:
+
+```
+OPENAI_API_KEY=sk-...la-tua-chiave...
+```
+
+---
+
+##  Struttura del progetto
+
+```
+includo-backend/
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── ChatController.php      # Gestisce la chat con l'AI e il flusso RAG
+│   │   └── CourseController.php    # Gestisce embedding e ricerca corsi
+│   └── Models/
+│       ├── Conversation.php        # Modello per la cronologia chat
+│       └── Course.php              # Modello per i corsi artigianali
+├── database/
+│   └── migrations/                 # Struttura delle tabelle del database
+├── routes/
+│   └── api.php                     # Definizione degli endpoint API
+└── .env.example                    # Variabili d'ambiente (template)
+```
+
+---
+
+##  Deploy
+
+Il backend è deployato su **Railway** con deploy automatico dal branch `main`.  
+Il database utilizzato è **MySQL**, sia in locale che in produzione.
+
+Il frontend (React) è deployato separatamente su **Vercel** e comunica con questo backend tramite la variabile d'ambiente `VITE_API_URL`.
+
+---
+
+## Autore
+
+Nicolò
+
+📧 Email: nicomelzi05@gmail.com
+
+🌐 GitHub: https://github.com/nico25m
+
+💼 LinkedIn: https://linkedin.com/in/nicolò-melzi
+
+🌐 Link al Progetto: https://nico25m.github.io/includo-backend/
+
+🌐 Link al Progetto webhosted: https://includo-frontend.vercel.app/
+
